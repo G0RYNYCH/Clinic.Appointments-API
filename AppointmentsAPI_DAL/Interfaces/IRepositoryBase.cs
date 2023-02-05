@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Appointments_API.Data.Interfaces;
+namespace AppointmentsAPI_DAL.Interfaces;
 
 public interface IRepositoryBase<T>
 {

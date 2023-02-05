@@ -1,7 +1,8 @@
-﻿using Appointments_API.Data.Interfaces;
-using Appointments_API.Models;
+﻿using AppointmentsAPI_DAL.Data;
+using AppointmentsAPI_DAL.Interfaces;
+using AppointmentsAPI_DAL.Models;
 
-namespace Appointments_API.Data.Repositories;
+namespace AppointmentsAPI_DAL.Repositories;
 
 public class AppointmentRepository : RepositoryBase<Appointment>, IAppointmentRepository
 {

@@ -1,8 +1,9 @@
-﻿using Appointments_API.Data.Interfaces;
+﻿using AppointmentsAPI_DAL.Data;
+using AppointmentsAPI_DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Appointments_API.Data.Repositories;
+namespace AppointmentsAPI_DAL.Repositories;
 
 public abstract class RepositoryBase<T> : IRepositoryBase<T>
     where T : class

@@ -1,4 +1,4 @@
-﻿namespace Appointments_API.Models;
+﻿namespace AppointmentsAPI_DAL.Models;
 
 public class Appointment
 {
