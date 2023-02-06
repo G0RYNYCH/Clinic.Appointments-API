@@ -1,9 +1,7 @@
-﻿namespace Appointments_API.Models;
+﻿namespace Appointments_API.Models.Dto;
 
-public class Appointment
+public class AppointmentDto
 {
-    public Guid Id { get; set; }
-
     public int PatientId { get; set; }
 
     public int DoctorId { get; set; }
