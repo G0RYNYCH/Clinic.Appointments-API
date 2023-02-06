@@ -1,8 +1,8 @@
-﻿namespace AppointmentsAPI_DAL.Models;
+﻿namespace Appointments_API.Models;
 
 public class Appointment
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public int PatientId { get; set; }
 
