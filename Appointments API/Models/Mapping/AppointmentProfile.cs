@@ -1,8 +1,7 @@
-﻿using Appointments_API.Models;
-using Appointments_API.Models.Dto;
+﻿using Appointments_API.Models.Dto;
 using AutoMapper;
 
-namespace Appointments_API.Services.Mapping;
+namespace Appointments_API.Models.Mapping;
 
 public class AppointmentProfile : Profile
 {

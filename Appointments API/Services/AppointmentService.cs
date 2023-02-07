@@ -1,9 +1,8 @@
-﻿using Appointments_API.Data.Intefaces;
+﻿using Appointments_API.Intefaces;
+using Appointments_API.Interfaces;
 using Appointments_API.Models;
 using Appointments_API.Models.Dto;
-using Appointments_API.Services.Interfaces;
 using AutoMapper;
-using System.Linq.Expressions;
 
 namespace Appointments_API.Services;
 
@@ -18,19 +17,19 @@ public class AppointmentService : IAppointmentService
         _mapper = mapper;
     }
 
-    public IQueryable<Appointment> GetAll()
+    public Task<IEnumerable<Appointment>> Search(SearchDto searchDto)
+    {
+        var appointments = _appointmentRepository.Search(searchDto);
+
+        return appointments;
+    }
+
+    public Task<IEnumerable<Appointment>> GetAll()
     {
         var appointments = _appointmentRepository.GetAll();
 
         return appointments;
     }
-
-    //public async Task<List<AppointmentDto>> FindAllByConditionAsync(Expression<Func<Appointment, bool>> expression, CancellationToken cancellationToken)
-    //{
-    //    var appointments = await _appointmentRepository.FindAllByConditionAsync<Appointment>(expression, cancellationToken);
-
-    //    return appointments;
-    //}
 
     public async Task<Appointment> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
@@ -41,6 +40,7 @@ public class AppointmentService : IAppointmentService
     {
         var appointment = _mapper.Map<AppointmentDto, Appointment>(appointmentDto);
         await _appointmentRepository.CreateAsync(appointment, cancellationToken);
+        // add httpClient
     }
 
     public async Task UpdateAsync(Guid id, UpdateAppointmentDto updateAppointmentDto, CancellationToken cancellationToken)
@@ -49,16 +49,24 @@ public class AppointmentService : IAppointmentService
         try
         {
             appointment = _mapper.Map<UpdateAppointmentDto, Appointment>(updateAppointmentDto);
+            await _appointmentRepository.UpdateAsync(appointment, cancellationToken);
         }
         catch (Exception)
         {
-
             throw;
         }
     }
 
-    public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var appointment = await _appointmentRepository.GetByIdAsync(id, cancellationToken);
+        try
+        {
+            await _appointmentRepository.DeleteAsync(appointment, cancellationToken);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }

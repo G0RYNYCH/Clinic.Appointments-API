@@ -1,9 +1,7 @@
 ﻿namespace Appointments_API.Models;
 
-public class Appointment
+public class Appointment : EntityBase
 {
-    public Guid Id { get; set; }
-
     public int PatientId { get; set; }
 
     public int DoctorId { get; set; }
