@@ -1,4 +1,4 @@
-﻿using Appointments_API.Intefaces;
+﻿using Appointments_API.Interfaces;
 using Appointments_API.Models;
 using Appointments_API.Models.Dto;
 using Microsoft.EntityFrameworkCore;
@@ -14,17 +14,17 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBas
         _context = context;
     }
 
-    public async Task<IEnumerable<T>> GetAll()
+    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await _context.Set<T>().AsNoTracking().ToListAsync();
+        return await _context.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<T>> Search(SearchDto searchDto)
+    public async Task<IEnumerable<T>> SearchAsync(SearchDto searchDto, CancellationToken cancellationToken)
     {
         return await _context.Set<T>()
                 .Skip(searchDto.PageSize * (searchDto.PageNumber - 1))
                 .Take(searchDto.PageSize)
-                .AsNoTracking().ToListAsync();
+                .AsNoTracking().ToListAsync(cancellationToken);
     }
 
     public async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)

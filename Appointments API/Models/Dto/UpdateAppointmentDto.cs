@@ -2,11 +2,11 @@
 
 public class UpdateAppointmentDto
 {
-    public int? PatientId { get; set; }
+    public Guid? PatientId { get; set; }
 
-    public int? DoctorId { get; set; }
+    public Guid? DoctorId { get; set; }
 
-    public int? ServiceId { get; set; }
+    public Guid? ServiceId { get; set; }
 
     public DateOnly? Date { get; set; }
 

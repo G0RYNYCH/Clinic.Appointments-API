@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Intefaces\qgui0enf.fzt~" />
+    <None Remove="Interfaces\qgui0enf.fzt~" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Models\Validators\" />
   </ItemGroup>
 
