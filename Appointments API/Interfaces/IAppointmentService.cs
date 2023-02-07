@@ -5,9 +5,9 @@ namespace Appointments_API.Interfaces;
 
 public interface IAppointmentService
 {
-    Task<IEnumerable<Appointment>> Search(SearchDto searchDto);
+    Task<IEnumerable<Appointment>> SearchAsync(SearchDto searchDto, CancellationToken cancellationToken);
 
-    Task<IEnumerable<Appointment>> GetAll();
+    Task<IEnumerable<Appointment>> GetAllAsync(CancellationToken cancellationToken);
 
     Task<Appointment> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 

@@ -1,5 +1,4 @@
-﻿using Appointments_API.Intefaces;
-using Appointments_API.Interfaces;
+﻿using Appointments_API.Interfaces;
 using Appointments_API.Models;
 using Appointments_API.Models.Dto;
 using AutoMapper;
@@ -17,16 +16,16 @@ public class AppointmentService : IAppointmentService
         _mapper = mapper;
     }
 
-    public Task<IEnumerable<Appointment>> Search(SearchDto searchDto)
+    public Task<IEnumerable<Appointment>> SearchAsync(SearchDto searchDto, CancellationToken cancellationToken)
     {
-        var appointments = _appointmentRepository.Search(searchDto);
+        var appointments = _appointmentRepository.SearchAsync(searchDto, cancellationToken);
 
         return appointments;
     }
 
-    public Task<IEnumerable<Appointment>> GetAll()
+    public Task<IEnumerable<Appointment>> GetAllAsync(CancellationToken cancellationToken)
     {
-        var appointments = _appointmentRepository.GetAll();
+        var appointments = _appointmentRepository.GetAllAsync(cancellationToken);
 
         return appointments;
     }
