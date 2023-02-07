@@ -1,7 +1,7 @@
-﻿using Appointments_API.Data.Intefaces;
+﻿using Appointments_API.Intefaces;
 using Appointments_API.Models;
 
-namespace Appointments_API.Data.Repositories;
+namespace Appointments_API.Repositories;
 
 public class AppointmentRepository : RepositoryBase<Appointment>, IAppointmentRepository
 {

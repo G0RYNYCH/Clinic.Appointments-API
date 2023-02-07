@@ -1,7 +1,7 @@
 ﻿using Appointments_API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Appointments_API.Data;
+namespace Appointments_API.Repositories;
 
 public class AppointmentDbContext : DbContext
 {
