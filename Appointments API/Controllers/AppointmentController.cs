@@ -39,7 +39,7 @@ public class AppointmentController : ControllerBase
         return Ok();
     }
 
-    [HttpPut("{id:guid}")] //TODO: HttpPatch
+    [HttpPut("{id}")]
     public async Task<IActionResult> Update(Guid id, UpdateAppointmentDto updateAppointmentDto)
     {
         await _appointmentService.UpdateAsync(id, updateAppointmentDto, HttpContext.RequestAborted);
@@ -47,7 +47,7 @@ public class AppointmentController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         await _appointmentService.DeleteAsync(id, HttpContext.RequestAborted);
