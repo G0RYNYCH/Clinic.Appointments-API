@@ -40,7 +40,7 @@ public class AppointmentController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, UpdateAppointmentDto updateAppointmentDto)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateAppointmentDto updateAppointmentDto)
     {
         await _appointmentService.UpdateAsync(id, updateAppointmentDto, HttpContext.RequestAborted);
 
@@ -48,8 +48,13 @@ public class AppointmentController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
+        var existingAppointment = await _appointmentService.GetByIdAsync(id, HttpContext.RequestAborted);
+        if (existingAppointment == null)
+        {
+            return BadRequest($"Appointment with Id = {id} not found");
+        }
         await _appointmentService.DeleteAsync(id, HttpContext.RequestAborted);
 
         return NoContent();

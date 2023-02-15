@@ -8,13 +8,16 @@ public class UpdateAppointmentDtoValidator : AbstractValidator<UpdateAppointment
     public UpdateAppointmentDtoValidator()
     {
         RuleFor(x => x.PatientId)
-            .NotEmpty();
+            .NotEmpty()
+            .Must(x => x != Guid.Empty);
 
         RuleFor(x => x.DoctorId)
-            .NotEmpty();
+            .NotEmpty()
+            .Must(x => x != Guid.Empty);
 
         RuleFor(x => x.ServiceId)
-            .NotEmpty();
+            .NotEmpty()
+            .Must(x => x != Guid.Empty);
 
         RuleFor(x => x.Date)
             .NotEmpty()
@@ -22,9 +25,6 @@ public class UpdateAppointmentDtoValidator : AbstractValidator<UpdateAppointment
             .WithMessage("Appointment date must be greater than current date.");
 
         RuleFor(x => x.Time)
-            .NotEmpty();
-
-        RuleFor(x => x.IsApproved)
             .NotEmpty();
     }
 }
