@@ -1,4 +1,5 @@
-﻿using Appointments_API.Interfaces;
+﻿using Appointments_API.Extensions;
+using Appointments_API.Interfaces;
 using Appointments_API.Repositories;
 using Appointments_API.Services;
 using FluentValidation;
@@ -63,7 +64,11 @@ public class Startup
             app.UseSwaggerUI();
         }
 
+        app.ConfigureCustomExceptionMiddleware();
+
         app.UseHttpsRedirection();
+
+        app.UseRouting();
 
         app.UseAuthorization();
 
