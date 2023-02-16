@@ -1,0 +1,36 @@
+﻿version: '3.1'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.1
+    container_name: elasticsearch
+    environment:
+        - xpack.monitoring.eanble=true
+        - xpack.watcher.enable=false
+        - discovery.type=single-singlenode
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+        - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+        - 9200:9200
+    networks:
+        - elasticnetwork
+
+  kibana:
+    image: docker.elastc.co/kibana/kibana:7.16.1
+    container_name: kibana
+    ports:
+        - 5601:5601
+    depends_on:
+        - elasticsearch
+    environment:
+        - ELASTICSEARCH_URL=http://elasticsearch:9200
+    networks:
+        - elasticnetwork
+
+volumes:
+  elasticsearch-data:
+  
+networks:
+  elasticnetwork:
+    driver: bridge
+    
