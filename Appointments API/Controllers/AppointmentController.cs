@@ -10,7 +10,7 @@ public class AppointmentController : ControllerBase
 {
     private readonly IAppointmentService _appointmentService;
 
-    private readonly ILogger<AppointmentController> _logger;//TODO: <>?
+    private readonly ILogger<AppointmentController> _logger;
 
     public AppointmentController(IAppointmentService appointmentService, ILogger<AppointmentController> logger)
     {

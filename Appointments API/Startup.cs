@@ -55,8 +55,10 @@ public class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
     {
         var logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(Configuration)
             .CreateLogger();
         loggerFactory.AddSerilog(logger, true);
+        Log.Logger = logger;
 
         if (env.IsDevelopment())
         {
@@ -64,7 +66,7 @@ public class Startup
             app.UseSwaggerUI();
         }
 
-        app.ConfigureCustomExceptionMiddleware();
+        app.UseCustomExceptionMiddleware();
 
         app.UseHttpsRedirection();
 
@@ -76,13 +78,5 @@ public class Startup
         {
             endpoints.MapControllers();
         });
-
-        //app.UseSerilog((context, configuration) =>
-        //{
-        //    configuration.Enrich.FromLogContext()
-        //        .Enrich.WithMachineName()
-        //        .WriteTo.Console()
-        //        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions());
-        //});
     }
 }

@@ -5,9 +5,9 @@ namespace Appointments_API.Exceptions;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly Serilog.Core.Logger _logger;//TODO: Serilog.Core.Logger type
+    private readonly ILogger<ExceptionMiddleware> _logger;
 
-    public ExceptionMiddleware(RequestDelegate next, Serilog.Core.Logger logger)
+    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
         _next = next;
         _logger = logger;
@@ -21,12 +21,12 @@ public class ExceptionMiddleware
         }
         catch (Exception exception)
         {
-            _logger.Error(exception.Message, exception);
-            await HandleExceptionAsync(httpContext, exception);
+            _logger.LogError(exception.Message, exception);
+            await HandleExceptionAsync(httpContext);
         }
     }
 
-    private async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
+    private async Task HandleExceptionAsync(HttpContext httpContext)
     {
         httpContext.Response.ContentType = "application/json";
         httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
