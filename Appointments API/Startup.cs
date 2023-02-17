@@ -1,4 +1,5 @@
-﻿using Appointments_API.Interfaces;
+﻿using Appointments_API.Extensions;
+using Appointments_API.Interfaces;
 using Appointments_API.Repositories;
 using Appointments_API.Services;
 using FluentValidation;
@@ -54,8 +55,10 @@ public class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
     {
         var logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(Configuration)
             .CreateLogger();
         loggerFactory.AddSerilog(logger, true);
+        Log.Logger = logger;
 
         if (env.IsDevelopment())
         {
@@ -63,7 +66,11 @@ public class Startup
             app.UseSwaggerUI();
         }
 
+        app.UseCustomExceptionMiddleware();
+
         app.UseHttpsRedirection();
+
+        app.UseRouting();
 
         app.UseAuthorization();
 
@@ -71,13 +78,5 @@ public class Startup
         {
             endpoints.MapControllers();
         });
-
-        //app.UseSerilog((context, configuration) =>
-        //{
-        //    configuration.Enrich.FromLogContext()
-        //        .Enrich.WithMachineName()
-        //        .WriteTo.Console()
-        //        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions());
-        //});
     }
 }
