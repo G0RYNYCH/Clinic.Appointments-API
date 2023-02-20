@@ -1,5 +1,4 @@
 ﻿using Appointments_API.Interfaces;
-using Appointments_API.Models;
 using Appointments_API.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -62,7 +61,7 @@ public class AppointmentController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateAppointmentDto updateAppointmentDto)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateAppointmentDto updateAppointmentDto)//TODO: optimize query
     {
         _logger.LogInformation("Update method is called");
 
@@ -81,7 +80,7 @@ public class AppointmentController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    public async Task<IActionResult> Delete([FromRoute] Guid id)//TODO: optimize query
     {
         _logger.LogInformation("Delete method is called");
 
