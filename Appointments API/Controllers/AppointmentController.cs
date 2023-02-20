@@ -1,4 +1,5 @@
 ﻿using Appointments_API.Interfaces;
+using Appointments_API.Models;
 using Appointments_API.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,8 +15,8 @@ public class AppointmentController : ControllerBase
 
     public AppointmentController(IAppointmentService appointmentService, ILogger<AppointmentController> logger)
     {
-        _appointmentService = appointmentService;
-        _logger = logger;
+        _appointmentService = appointmentService ?? throw new ArgumentNullException(nameof(appointmentService));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [HttpGet]
