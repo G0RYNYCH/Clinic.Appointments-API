@@ -17,14 +17,14 @@ using Xunit;
 
 namespace Appointments_API.Tests.Controllers;
 
-public class AppointmentControllerTest
+public class AppointmentControllerTests
 {
     private AppointmentController _appointmentController;
     private readonly Mock<IAppointmentService> _appointmentService;
     private readonly Mock<ILogger<AppointmentController>> _logger;
     private readonly CancellationToken _cancelationToken;
 
-    public AppointmentControllerTest()
+    public AppointmentControllerTests()
     {
         _appointmentService = new Mock<IAppointmentService>();
         _logger = new Mock<ILogger<AppointmentController>>();
