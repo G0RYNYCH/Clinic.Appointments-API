@@ -19,7 +19,7 @@ namespace Appointments_API.Tests.Controllers;
 
 public class AppointmentControllerTests
 {
-    private AppointmentController _appointmentController;
+    private readonly AppointmentController _appointmentController;
     private readonly Mock<IAppointmentService> _appointmentService;
     private readonly Mock<ILogger<AppointmentController>> _logger;
     private readonly CancellationToken _cancelationToken;
@@ -111,7 +111,7 @@ public class AppointmentControllerTests
 
         var appointments = result!.Value as IEnumerable<Appointment>;
         appointments.Should().NotBeNullOrEmpty();
-        appointments.Should().HaveCount(1);// TODO: 1? 
+        appointments.Should().HaveCount(1);
 
         var appointment = appointments!.First();
         appointment.PatientId.Should().Be(testAppointment.PatientId);

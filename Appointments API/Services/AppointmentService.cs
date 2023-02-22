@@ -12,8 +12,8 @@ public class AppointmentService : IAppointmentService
 
     public AppointmentService(IAppointmentRepository appointmentRepository, IMapper mapper)
     {
-        _appointmentRepository = appointmentRepository;
-        _mapper = mapper;
+        _appointmentRepository = appointmentRepository ?? throw new ArgumentNullException(nameof(appointmentRepository));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     public Task<IEnumerable<Appointment>> SearchAsync(SearchDto searchDto, CancellationToken cancellationToken)
