@@ -4,7 +4,6 @@ using Appointments_API.Models.Dto;
 using Appointments_API.Services;
 using AutoMapper;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Moq;
 using System;
 using System.Collections.Generic;

@@ -11,7 +11,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBas
 
     protected RepositoryBase(AppointmentDbContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException();//TODO: typeof(context)
     }
 
     public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken)
@@ -35,6 +35,8 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBas
     public async Task CreateAsync(T entity, CancellationToken cancellationToken)
     {
         await _context.Set<T>().AddAsync(entity, cancellationToken);
+        //var a = _context.Set<T>();
+        //var b = await a.AddAsync(entity, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
 
