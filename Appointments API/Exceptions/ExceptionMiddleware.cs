@@ -28,13 +28,10 @@ public class ExceptionMiddleware
 
     private async Task HandleExceptionAsync(HttpContext httpContext)
     {
-        httpContext.Response.ContentType = "application/json";
-        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-        await httpContext.Response.WriteAsync(new ErrorDetails()
+        await httpContext.Response.WriteAsJsonAsync(new ErrorDetails()
         {
             StatusCode = httpContext.Response.StatusCode,
-            Message = "Internal Server Error"
-        }.ToString());
+            Message = "Some error occured"
+        });
     }
 }

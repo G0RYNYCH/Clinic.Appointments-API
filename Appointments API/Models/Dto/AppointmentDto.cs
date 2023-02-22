@@ -1,5 +1,8 @@
-﻿namespace Appointments_API.Models.Dto;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Appointments_API.Models.Dto;
+
+[ExcludeFromCodeCoverage]
 public class AppointmentDto
 {
     public Guid PatientId { get; set; }

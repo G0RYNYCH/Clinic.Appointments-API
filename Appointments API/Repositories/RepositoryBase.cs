@@ -11,7 +11,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBas
 
     protected RepositoryBase(AppointmentDbContext context)
     {
-        _context = context ?? throw new ArgumentNullException();//TODO: typeof(context)
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken)

@@ -141,18 +141,19 @@ public class AppointmentRepositoryTests
     {
         // Arrange
         var appointment = new Appointment();
-        var appointments = new List<Appointment>();
+
+        var dbSetMock = new Mock<DbSet<Appointment>>();
 
         _context.Setup(x => x.Set<Appointment>())
-            .ReturnsDbSet(appointments);
+            .Returns(dbSetMock.Object);
 
         //Act
         await _appointmentRepository.CreateAsync(appointment, _cancelationToken);
 
         //Assert
         _context.Verify(x => x.Set<Appointment>(), Times.Once());
+        dbSetMock.Verify(x => x.AddAsync(appointment, _cancelationToken), Times.Once());
         _context.Verify(x => x.SaveChangesAsync(_cancelationToken), Times.Once());
-        appointments.Should().HaveCount(1);
     }
 
     #endregion
