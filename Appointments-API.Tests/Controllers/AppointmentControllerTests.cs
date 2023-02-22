@@ -111,7 +111,7 @@ public class AppointmentControllerTests
 
         var appointments = result!.Value as IEnumerable<Appointment>;
         appointments.Should().NotBeNullOrEmpty();
-        appointments.Should().HaveCount(1);// TODO: 1? 
+        appointments.Should().HaveCount(1);
 
         var appointment = appointments!.First();
         appointment.PatientId.Should().Be(testAppointment.PatientId);

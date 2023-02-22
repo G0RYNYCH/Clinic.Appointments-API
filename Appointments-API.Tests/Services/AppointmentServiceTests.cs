@@ -5,7 +5,6 @@ using Appointments_API.Services;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -26,13 +25,10 @@ public class AppointmentServiceTests
     {
         _appointmentRepository = new Mock<IAppointmentRepository>();
         _mapper = new Mock<IMapper>();
-
-        var mockHttpContext = new DefaultHttpContext();//TODO: ? 
-        mockHttpContext.RequestAborted = _cancelationToken;
-
+        _cancelationToken = new CancellationToken();
         _appointmentService = new AppointmentService(_appointmentRepository.Object, _mapper.Object);
     }
-    //TODO: test ctor or not? 
+
     #region Ctor 
 
     [Fact]
