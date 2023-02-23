@@ -14,12 +14,18 @@
 **/.idea/**/dataSources.local.xml
 **/.idea/**/sqlDataSources.xml
 **/.idea/**/dynamic.xml
+**/.idea/**/vcs.xml
+**/.idea/**/indexLayout.xml
+**/.idea/**/encodings.xml
+**/.idea/**/.name
 
 # Rider
 # Rider auto-generates .iml files, and contentModel.xml
 **/.idea/**/*.iml
 **/.idea/**/contentModel.xml
 **/.idea/**/modules.xml
+**/.idea/**/*.xml
+.idea/
 
 *.suo
 *.user
@@ -824,3 +830,4 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+/.idea/.idea.Appointments API/.idea/projectSettingsUpdater.xml
