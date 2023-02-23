@@ -13,7 +13,7 @@ namespace AppointmentsAPI;
 
 public class Startup
 {
-    public IConfiguration Configuration { get; }
+    public IConfiguration Configuration { get; }//TODO: replace public with private?
 
     public Startup(IConfiguration configuration)
     {

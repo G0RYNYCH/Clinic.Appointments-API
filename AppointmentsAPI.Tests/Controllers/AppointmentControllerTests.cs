@@ -45,7 +45,7 @@ public class AppointmentControllerTests
     #region Ctor
 
     [Fact]
-    public void AppointmentControllerCtor_WithNullAppointmentService_ThrowsNullArgumentExcception()
+    public void AppointmentControllerCtor_WithNullAppointmentService_ThrowsNullArgumentException()
     {
         // Arrange
         // Act
@@ -54,7 +54,7 @@ public class AppointmentControllerTests
     }
 
     [Fact]
-    public void AppointmentControllerCtor_WithNullLogger_ThrowsNullArgumentExcception()
+    public void AppointmentControllerCtor_WithNullLogger_ThrowsNullArgumentException()
     {
         // Arrange
         // Act
@@ -176,8 +176,6 @@ public class AppointmentControllerTests
         // Arrange
         var appointmentDto = new AppointmentDto();
 
-        var createResult = new Appointment();
-
         // Act
         var result = await _appointmentController.Create(appointmentDto);
 
@@ -193,7 +191,7 @@ public class AppointmentControllerTests
     #region Update
 
     [Fact]
-    public async Task Update_ExistingId_Succeess()
+    public async Task Update_ExistingId_Succeeded()
     {
         // Arrange
         var appointmentId = Guid.NewGuid();
@@ -240,7 +238,7 @@ public class AppointmentControllerTests
     #region Delete
 
     [Fact]
-    public async Task Delete_ExistingId_Succeess()
+    public async Task Delete_ExistingId_Succeeded()
     {
         // Arrange
         var appointmentId = Guid.NewGuid();

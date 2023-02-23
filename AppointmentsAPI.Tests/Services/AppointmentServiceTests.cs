@@ -18,22 +18,22 @@ public class AppointmentServiceTests
     private readonly AppointmentService _appointmentService;
     private readonly Mock<IAppointmentRepository> _appointmentRepository;
     private readonly Mock<IMapper> _mapper;
-    private readonly CancellationToken _cancelationToken;
+    private readonly CancellationToken _cancellationToken;
 
     public AppointmentServiceTests()
     {
         _appointmentRepository = new Mock<IAppointmentRepository>();
         _mapper = new Mock<IMapper>();
-        _cancelationToken = new CancellationToken();
+        _cancellationToken = new CancellationToken();
         _appointmentService = new AppointmentService(_appointmentRepository.Object, _mapper.Object);
     }
 
     #region Ctor 
 
     [Fact]
-    public void AppointmentServiceCtor_NullAppointmentRepository_ThrowsNullArgumentExceeption()
+    public void AppointmentServiceCtor_NullAppointmentRepository_ThrowsNullArgumentException()
     {
-        //Arrenge
+        //Arrange
         //Act
         //Assert
         Assert.Throws<ArgumentNullException>(() => new AppointmentService(null, _mapper.Object));
@@ -42,7 +42,7 @@ public class AppointmentServiceTests
     [Fact]
     public void AppointmentServiceCtor_NullMapper_ThrowsNullArgumentException()
     {
-        //Arrenge
+        //Arrange
         //Act
         //Assert
         Assert.Throws<ArgumentNullException>(() => new AppointmentService(_appointmentRepository.Object, null));
@@ -51,7 +51,7 @@ public class AppointmentServiceTests
     [Fact]
     public void AppointmentServiceCtor_WithNotNullArgs_CreatesInstance()
     {
-        //Arrenge
+        //Arrange
         //Act
         var result = new AppointmentService(_appointmentRepository.Object, _mapper.Object);
 
@@ -66,7 +66,7 @@ public class AppointmentServiceTests
     [Fact]
     public async Task SearchAsync_ValidParams_Succeeded()
     {
-        //Arrenge
+        //Arrange
         var searchDto = new SearchDto()
         {
             PageSize = 1,
@@ -80,14 +80,14 @@ public class AppointmentServiceTests
             testAppointment
         };
 
-        _appointmentRepository.Setup(x => x.SearchAsync(searchDto, _cancelationToken))
+        _appointmentRepository.Setup(x => x.SearchAsync(searchDto, _cancellationToken))
             .ReturnsAsync(searchResult);
 
         //Act
-        var result = await _appointmentService.SearchAsync(searchDto, _cancelationToken);
+        var result = await _appointmentService.SearchAsync(searchDto, _cancellationToken);
 
         //Assert
-        _appointmentRepository.Verify(x => x.SearchAsync(searchDto, _cancelationToken), Times.Once());
+        _appointmentRepository.Verify(x => x.SearchAsync(searchDto, _cancellationToken), Times.Once());
         result.Should().NotBeNullOrEmpty();
         result.Should().HaveCount(1);
     }
@@ -99,7 +99,7 @@ public class AppointmentServiceTests
     [Fact]
     public async Task GetAllAsync_ValidParams_Succeeded()
     {
-        //Arrenge
+        //Arrange
         var searchResult = new List<Appointment>()
         {
             new Appointment(),
@@ -107,14 +107,14 @@ public class AppointmentServiceTests
             new Appointment(),
         };
 
-        _appointmentRepository.Setup(x => x.GetAllAsync(_cancelationToken))
+        _appointmentRepository.Setup(x => x.GetAllAsync(_cancellationToken))
             .ReturnsAsync(searchResult);
 
         //Act
-        var result = await _appointmentService.GetAllAsync(_cancelationToken);
+        var result = await _appointmentService.GetAllAsync(_cancellationToken);
 
         //Assert
-        _appointmentRepository.Verify(x => x.GetAllAsync(_cancelationToken), Times.Once());
+        _appointmentRepository.Verify(x => x.GetAllAsync(_cancellationToken), Times.Once());
         result.Should().NotBeNullOrEmpty();
         result.Should().HaveCount(3);
     }
@@ -133,14 +133,14 @@ public class AppointmentServiceTests
             Id = appointmentId,
         };
 
-        _appointmentRepository.Setup(x => x.GetByIdAsync(appointmentId, _cancelationToken))
+        _appointmentRepository.Setup(x => x.GetByIdAsync(appointmentId, _cancellationToken))
             .ReturnsAsync(searchResult);
 
         //Act
-        var result = await _appointmentService.GetByIdAsync(appointmentId, _cancelationToken);
+        var result = await _appointmentService.GetByIdAsync(appointmentId, _cancellationToken);
 
         //Assert
-        _appointmentRepository.Verify(x => x.GetByIdAsync(appointmentId, _cancelationToken), Times.Once());
+        _appointmentRepository.Verify(x => x.GetByIdAsync(appointmentId, _cancellationToken), Times.Once());
         result.Should().NotBeNull();
         result.Id.Should().Be(searchResult.Id);
     }
@@ -152,7 +152,7 @@ public class AppointmentServiceTests
     [Fact]
     public async Task CreateAsync_ValidParams_Succeeded()
     {
-        //Arrenge
+        //Arrange
         var appointmentDto = new AppointmentDto();
         var appointment = new Appointment();
 
@@ -160,11 +160,11 @@ public class AppointmentServiceTests
             .Returns(appointment);
 
         //Act
-        await _appointmentService.CreateAsync(appointmentDto, _cancelationToken);
+        await _appointmentService.CreateAsync(appointmentDto, _cancellationToken);
 
         //Assert
         _mapper.Verify(x => x.Map<AppointmentDto, Appointment>(appointmentDto), Times.Once());
-        _appointmentRepository.Verify(x => x.CreateAsync(appointment, _cancelationToken), Times.Once());
+        _appointmentRepository.Verify(x => x.CreateAsync(appointment, _cancellationToken), Times.Once());
     }
 
     #endregion
@@ -174,7 +174,7 @@ public class AppointmentServiceTests
     [Fact]
     public async Task UpdateAsync_ValidParams_Succeeded()
     {
-        //Arrenge
+        //Arrange
         var appointmentId = Guid.NewGuid();
         var appointment = new Appointment()
         {
@@ -186,12 +186,12 @@ public class AppointmentServiceTests
             .Returns(appointment);
 
         //Act
-        await _appointmentService.UpdateAsync(appointmentId, updateAppointmentDto, _cancelationToken);
+        await _appointmentService.UpdateAsync(appointmentId, updateAppointmentDto, _cancellationToken);
 
         //Assert
-        _appointmentRepository.Verify(x => x.GetByIdAsync(appointmentId, _cancelationToken));
+        _appointmentRepository.Verify(x => x.GetByIdAsync(appointmentId, _cancellationToken));
         _mapper.Verify(x => x.Map<UpdateAppointmentDto, Appointment>(updateAppointmentDto), Times.Once());
-        _appointmentRepository.Verify(x => x.UpdateAsync(appointment, _cancelationToken), Times.Once());
+        _appointmentRepository.Verify(x => x.UpdateAsync(appointment, _cancellationToken), Times.Once());
     }
 
     #endregion
@@ -201,22 +201,22 @@ public class AppointmentServiceTests
     [Fact]
     public async Task DeleteAsync_ValidParams_Succeeded()
     {
-        //Arrenge
+        //Arrange
         var appointmentId = Guid.NewGuid();
         var appointment = new Appointment()
         {
             Id = appointmentId
         };
 
-        _appointmentRepository.Setup(x => x.GetByIdAsync(appointmentId, _cancelationToken))
+        _appointmentRepository.Setup(x => x.GetByIdAsync(appointmentId, _cancellationToken))
             .ReturnsAsync(appointment);
 
         //Act
-        await _appointmentService.DeleteAsync(appointmentId, _cancelationToken);
+        await _appointmentService.DeleteAsync(appointmentId, _cancellationToken);
 
         //Assert
-        _appointmentRepository.Verify(x => x.GetByIdAsync(appointmentId, _cancelationToken), Times.Once());
-        _appointmentRepository.Verify(x => x.DeleteAsync(appointment, _cancelationToken), Times.Once());
+        _appointmentRepository.Verify(x => x.GetByIdAsync(appointmentId, _cancellationToken), Times.Once());
+        _appointmentRepository.Verify(x => x.DeleteAsync(appointment, _cancellationToken), Times.Once());
     }
 
     #endregion

@@ -18,13 +18,13 @@ public class AppointmentRepositoryTests
 {
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly Mock<AppointmentDbContext> _context;
-    private readonly CancellationToken _cancelationToken;
+    private readonly CancellationToken _cancellationToken;
 
     public AppointmentRepositoryTests()
     {
         var dbContextOptions = new DbContextOptions<AppointmentDbContext>();
         _context = new Mock<AppointmentDbContext>(dbContextOptions);
-        _cancelationToken = new CancellationToken();
+        _cancellationToken = new CancellationToken();
         _appointmentRepository = new AppointmentRepository(_context.Object);
     }
 
@@ -72,7 +72,7 @@ public class AppointmentRepositoryTests
             .ReturnsDbSet(appointments);
 
         //Act
-        var result = await _appointmentRepository.SearchAsync(searchDto, _cancelationToken);
+        var result = await _appointmentRepository.SearchAsync(searchDto, _cancellationToken);
 
         //Assert
         _context.Verify(x => x.Set<Appointment>(), Times.Once());
@@ -102,7 +102,7 @@ public class AppointmentRepositoryTests
             .ReturnsDbSet(appointments);
 
         //Act
-        var result = await _appointmentRepository.GetByIdAsync(appointmentId, _cancelationToken);
+        var result = await _appointmentRepository.GetByIdAsync(appointmentId, _cancellationToken);
 
         //Assert
         _context.Verify(x => x.Set<Appointment>(), Times.Once());
@@ -125,7 +125,7 @@ public class AppointmentRepositoryTests
             .ReturnsDbSet(appointments);
 
         //Act
-        var result = await _appointmentRepository.GetByIdAsync(appointmentId, _cancelationToken);
+        var result = await _appointmentRepository.GetByIdAsync(appointmentId, _cancellationToken);
 
         //Assert
         _context.Verify(x => x.Set<Appointment>(), Times.Once());
@@ -148,12 +148,12 @@ public class AppointmentRepositoryTests
             .Returns(dbSetMock.Object);
 
         //Act
-        await _appointmentRepository.CreateAsync(appointment, _cancelationToken);
+        await _appointmentRepository.CreateAsync(appointment, _cancellationToken);
 
         //Assert
         _context.Verify(x => x.Set<Appointment>(), Times.Once());
-        dbSetMock.Verify(x => x.AddAsync(appointment, _cancelationToken), Times.Once());
-        _context.Verify(x => x.SaveChangesAsync(_cancelationToken), Times.Once());
+        dbSetMock.Verify(x => x.AddAsync(appointment, _cancellationToken), Times.Once());
+        _context.Verify(x => x.SaveChangesAsync(_cancellationToken), Times.Once());
     }
 
     #endregion
@@ -170,11 +170,11 @@ public class AppointmentRepositoryTests
         //    .Returns();
 
         //Act
-        await _appointmentRepository.UpdateAsync(appointment, _cancelationToken);
+        await _appointmentRepository.UpdateAsync(appointment, _cancellationToken);
 
         //Assert
         _context.Verify(x => x.Update(appointment), Times.Once());
-        _context.Verify(x => x.SaveChangesAsync(_cancelationToken), Times.Once());
+        _context.Verify(x => x.SaveChangesAsync(_cancellationToken), Times.Once());
     }
 
     #endregion
@@ -188,11 +188,11 @@ public class AppointmentRepositoryTests
         var appointment = new Appointment();
 
         //Act
-        await _appointmentRepository.DeleteAsync(appointment, _cancelationToken);
+        await _appointmentRepository.DeleteAsync(appointment, _cancellationToken);
 
         //Assert
         _context.Verify(x => x.Remove(appointment), Times.Once());
-        _context.Verify(x => x.SaveChangesAsync(_cancelationToken), Times.Once());
+        _context.Verify(x => x.SaveChangesAsync(_cancellationToken), Times.Once());
     }
 
     #endregion

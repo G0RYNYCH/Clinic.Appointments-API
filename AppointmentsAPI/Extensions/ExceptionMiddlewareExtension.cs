@@ -1,7 +1,4 @@
-﻿using AppointmentsAPI.Models;
-using Microsoft.AspNetCore.Diagnostics;
-using System.Net;
-using AppointmentsAPI.Exceptions;
+﻿using AppointmentsAPI.Exceptions;
 
 namespace AppointmentsAPI.Extensions;
 

@@ -1,5 +1,4 @@
-﻿using AppointmentsAPI.Models;
-using AppointmentsAPI.Models.Dto;
+﻿using AppointmentsAPI.Models.Dto;
 using AutoMapper;
 
 namespace AppointmentsAPI.Models.Mapping;

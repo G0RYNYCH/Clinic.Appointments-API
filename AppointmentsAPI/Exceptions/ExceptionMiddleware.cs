@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace AppointmentsAPI.Exceptions;
+﻿namespace AppointmentsAPI.Exceptions;
 
 public class ExceptionMiddleware
 {
