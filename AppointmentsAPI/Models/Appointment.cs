@@ -1,5 +1,8 @@
-﻿namespace AppointmentsAPI.Models;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace AppointmentsAPI.Models;
+
+[ExcludeFromCodeCoverage]
 public class Appointment : EntityBase
 {
     public Guid PatientId { get; set; }

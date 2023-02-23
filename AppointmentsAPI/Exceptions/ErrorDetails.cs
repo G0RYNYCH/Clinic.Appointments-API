@@ -1,7 +1,9 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 
 namespace AppointmentsAPI.Exceptions;
 
+[ExcludeFromCodeCoverage]
 public class ErrorDetails
 {
     public int StatusCode { get; set; }
