@@ -17,7 +17,7 @@ public class UpdateAppointmentDtoValidatorTests
     }
 
     [Fact]
-    public async Task AppointmentDtoValidator_ValidModel_Succeeded()
+    public async Task UpdateAppointmentDtoValidator_ValidModel_Succeeded()
     {
         //Arrange
         var updateAppointmentDto = new UpdateAppointmentDto()
@@ -43,7 +43,7 @@ public class UpdateAppointmentDtoValidatorTests
     }
     
     [Fact]
-    public async Task AppointmentDtoValidator_InValidDate_ReturnsError()
+    public async Task UpdateAppointmentDtoValidator_InValidDate_ReturnsError()
     {
         //Arrange
         var updateAppointmentDto = new UpdateAppointmentDto()
