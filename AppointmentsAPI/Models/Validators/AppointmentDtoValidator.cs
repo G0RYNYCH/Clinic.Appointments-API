@@ -22,7 +22,7 @@ public class AppointmentDtoValidator : AbstractValidator<AppointmentDto>
         RuleFor(x => x.Date)
             .NotEmpty()
             .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now))
-            .WithMessage("Appointment date must be greater than current date.");
+            .WithMessage("Appointment date must be greater than current date");
 
         RuleFor(x => x.Time)
             .NotEmpty();

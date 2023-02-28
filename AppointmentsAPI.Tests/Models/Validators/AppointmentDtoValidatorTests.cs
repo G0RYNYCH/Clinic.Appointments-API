@@ -7,20 +7,20 @@ using Xunit;
 
 namespace Appointments_API.Tests.Models.Validators;
 
-public class UpdateAppointmentDtoValidatorTests
+public class AppointmentDtoValidatorTests
 {
-    private readonly UpdateAppointmentDtoValidator _validator;
+    private readonly AppointmentDtoValidator _validator;
 
-    public UpdateAppointmentDtoValidatorTests()
+    public AppointmentDtoValidatorTests()
     {
-        _validator = new UpdateAppointmentDtoValidator();
+        _validator = new AppointmentDtoValidator();
     }
 
     [Fact]
-    public async Task UpdateAppointmentDtoValidator_ValidModel_Succeeded()
+    public async Task AppointmentDtoValidator_ValidModel_Succeeded()
     {
         //Arrange
-        var updateAppointmentDto = new UpdateAppointmentDto()
+        var appointmentDto = new AppointmentDto()
         {
             PatientId = Guid.NewGuid(),
             DoctorId = Guid.NewGuid(),
@@ -31,7 +31,7 @@ public class UpdateAppointmentDtoValidatorTests
         };
 
         //Act
-        var result = await _validator.TestValidateAsync(updateAppointmentDto);
+        var result = await _validator.TestValidateAsync(appointmentDto);
 
         //Assert
         result.ShouldNotHaveValidationErrorFor(x => x.PatientId);
@@ -43,10 +43,10 @@ public class UpdateAppointmentDtoValidatorTests
     }
     
     [Fact]
-    public async Task UpdateAppointmentDtoValidator_InValidDate_ReturnsError()
+    public async Task AppointmentDtoValidator_InValidDate_ReturnsError()
     {
         //Arrange
-        var updateAppointmentDto = new UpdateAppointmentDto()
+        var appointmentDto = new AppointmentDto()
         {
             PatientId = Guid.NewGuid(),
             DoctorId = Guid.NewGuid(),
@@ -55,10 +55,10 @@ public class UpdateAppointmentDtoValidatorTests
             Time = TimeOnly.MaxValue,
             IsApproved = false
         };
-
+    
         //Act
-        var result = await _validator.TestValidateAsync(updateAppointmentDto);
-
+        var result = await _validator.TestValidateAsync(appointmentDto);
+    
         //Assert
         result.ShouldHaveValidationErrorFor(x => x.Date)
             .Only()
