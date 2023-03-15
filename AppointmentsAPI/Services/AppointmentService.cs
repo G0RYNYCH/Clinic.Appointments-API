@@ -9,11 +9,13 @@ public class AppointmentService : IAppointmentService
 {
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IMapper _mapper;
+    private static readonly HttpClient _httpClient = new HttpClient();
 
     public AppointmentService(IAppointmentRepository appointmentRepository, IMapper mapper)
     {
         _appointmentRepository = appointmentRepository ?? throw new ArgumentNullException(nameof(appointmentRepository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _httpClient.BaseAddress = new Uri("http://localhost:5116"); //TODO: docker service uri
     }
 
     public Task<IEnumerable<Appointment>> SearchAsync(SearchDto searchDto, CancellationToken cancellationToken)
@@ -35,7 +37,14 @@ public class AppointmentService : IAppointmentService
     {
         var appointment = _mapper.Map<AppointmentDto, Appointment>(appointmentDto);
         await _appointmentRepository.CreateAsync(appointment, cancellationToken);
-        // add httpClient
+        //add httpClient
+        //provide data validation
+        //crate requestModel
+        //error mess, isSuccess, data?
+
+        var response = await _httpClient.GetAsync("api/appointments", cancellationToken);
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
     }
 
     public async Task UpdateAsync(Guid id, UpdateAppointmentDto updateAppointmentDto, CancellationToken cancellationToken)
