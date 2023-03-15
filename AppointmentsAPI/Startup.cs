@@ -60,11 +60,14 @@ public class Startup
         loggerFactory.AddSerilog(logger, true);
         Log.Logger = logger;
 
-        if (env.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+        // if (env.IsDevelopment())
+        // {
+        //     app.UseSwagger();
+        //     app.UseSwaggerUI();
+        // }
+        
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
         app.UseCustomExceptionMiddleware();
 

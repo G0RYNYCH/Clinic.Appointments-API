@@ -10,7 +10,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - DB_CONNECTION_STRING:"host=postgres;port=5432;database=Appointments;username=postgres;password=8311"
     ports:
-      - "8080:90"
+      - "5118:80"
     depends_on:
       - postgres
     networks:
