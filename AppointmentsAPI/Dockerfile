@@ -5,10 +5,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["AppointmentsAPI/AppointmentsAPI.csproj", "AppointmentsAPI/"]
-RUN dotnet restore "AppointmentsAPI/AppointmentsAPI.csproj"
 COPY . .
-WORKDIR "/src/AppointmentsAPI"
+WORKDIR "."
+
+RUN dotnet restore "AppointmentsAPI.csproj"
+
 RUN dotnet build "AppointmentsAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish

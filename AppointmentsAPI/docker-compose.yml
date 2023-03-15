@@ -1,36 +1,94 @@
-﻿version: '3.1'
+﻿version: '3.4'
 services:
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.1
-    container_name: elasticsearch
+  appointmentsapi:
+    image: appointmentsapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
     environment:
-        - xpack.monitoring.eanble=true
-        - xpack.watcher.enable=false
-        - discovery.type=single-singlenode
-        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    volumes:
-        - elasticsearch-data:/usr/share/elasticsearch/data
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DB_CONNECTION_STRING:"host=postgres;port=5432;database=Appointments;username=postgres;password=8311"
     ports:
-        - 9200:9200
-    networks:
-        - elasticnetwork
-
-  kibana:
-    image: docker.elastc.co/kibana/kibana:7.16.1
-    container_name: kibana
-    ports:
-        - 5601:5601
+      - "8080:90"
     depends_on:
-        - elasticsearch
-    environment:
-        - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - postgres
     networks:
-        - elasticnetwork
+      - appointment_network
 
-volumes:
-  elasticsearch-data:
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-8311}
+      POSTGRES_DB: ${POSTGRES_DB:-Appointments}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - appointment_network
+    restart: unless-stopped
   
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+#      - "$${PGADMIN_PORT:-5050}:80"
+      - "5050:80"
+    networks: 
+      - appointment_network
+    restart: unless-stopped
+
 networks:
-  elasticnetwork:
+  appointment_network:
     driver: bridge
+    
+volumes:
+  appointmentsapi:
+  postgres:
+  pgadmin:
+    
+    #services:
+#  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.1
+#    container_name: elasticsearch
+#    environment:
+#        - xpack.monitoring.eanble=true
+#        - xpack.watcher.enable=false
+#        - discovery.type=single-singlenode
+#        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    volumes:
+#        - elasticsearch-data:/usr/share/elasticsearch/data
+#    ports:
+#        - 9200:9200
+#    networks:
+#        - elasticnetwork
+#
+#  kibana:
+#    image: docker.elastc.co/kibana/kibana:7.16.1
+#    container_name: kibana
+#    ports:
+#        - 5601:5601
+#    depends_on:
+#        - elasticsearch
+#    environment:
+#        - ELASTICSEARCH_URL=http://elasticsearch:9200
+#    networks:
+#        - elasticnetwork
+#
+#volumes:
+#  elasticsearch-data:
+#  
+#networks:
+#  elasticnetwork:
+#    driver: bridge
     
