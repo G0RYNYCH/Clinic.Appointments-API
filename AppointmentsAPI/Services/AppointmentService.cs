@@ -41,10 +41,11 @@ public class AppointmentService : IAppointmentService
         //provide data validation
         //crate requestModel
         //error mess, isSuccess, data?
-
-        var response = await _httpClient.GetAsync("api/appointments", cancellationToken);
+        
+        var response = await _httpClient.GetAsync("api/profiles", cancellationToken);
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        Console.WriteLine(content);
     }
 
     public async Task UpdateAsync(Guid id, UpdateAppointmentDto updateAppointmentDto, CancellationToken cancellationToken)
