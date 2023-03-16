@@ -24,9 +24,10 @@ public class Startup
     {
         services.AddControllers();
         services.AddMvc();
-        services.AddFluentValidationAutoValidation();
-        services.AddValidatorsFromAssemblyContaining<IValidator>();
         services.AddEndpointsApiExplorer();
+        services.AddFluentValidationAutoValidation();
+        services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+        
         services.AddSwaggerGen(options =>
             {
                 options.MapType<DateOnly>(() =>
