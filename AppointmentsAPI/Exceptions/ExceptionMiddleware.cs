@@ -20,16 +20,16 @@ public class ExceptionMiddleware
         catch (Exception exception)
         {
             _logger.LogError(exception.Message, exception);
-            await HandleExceptionAsync(httpContext);
+            await HandleExceptionAsync(httpContext, exception);
         }
     }
 
-    private async Task HandleExceptionAsync(HttpContext httpContext)
+    private async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
     {
         await httpContext.Response.WriteAsJsonAsync(new ErrorDetails()
         {
             StatusCode = httpContext.Response.StatusCode,
-            Message = "Some error occured"
+            Message = exception.Message
         });
     }
 }

@@ -59,7 +59,7 @@ public class AppointmentController : ControllerBase
         return Ok();
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id}")]//TODO: creates new entry, not updates existing one
     public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateAppointmentDto updateAppointmentDto)//TODO: optimize query
     {
         _logger.LogInformation("Update method is called");
