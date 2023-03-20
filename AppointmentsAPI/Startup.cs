@@ -82,5 +82,9 @@ public class Startup
         {
             endpoints.MapControllers();
         });
+
+        using var scope = app.ApplicationServices.CreateScope();
+        using var context = scope.ServiceProvider.GetService<AppointmentDbContext>();
+        context.Database.Migrate();
     }
 }
