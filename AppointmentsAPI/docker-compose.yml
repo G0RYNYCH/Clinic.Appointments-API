@@ -7,14 +7,14 @@ services:
       dockerfile: Dockerfile
     restart: always
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - DB_CONNECTION_STRING:"host=postgres;port=5432;database=Appointments;username=postgres;password=8311"
+      ASPNETCORE_ENVIRONMENT: Development
+      DB_CONNECTION_STRING: "host=postgres;port=5432;database=Appointments;username=postgres;password=8311"
     ports:
       - "5118:80"
     depends_on:
       - postgres
     networks:
-      - appointment_network
+      - clinic_network
 
   postgres:
     container_name: postgres_container
@@ -29,7 +29,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - appointment_network
+      - clinic_network
     restart: unless-stopped
   
   pgadmin:
@@ -45,13 +45,13 @@ services:
 #      - "$${PGADMIN_PORT:-5050}:80"
       - "5050:80"
     networks: 
-      - appointment_network
+      - clinic_network
     restart: unless-stopped
 
 networks:
-  appointment_network:
-    driver: bridge
-    
+  clinic_network:
+    external: true
+
 volumes:
   appointmentsapi:
   postgres:

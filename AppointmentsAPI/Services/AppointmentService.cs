@@ -9,7 +9,7 @@ public class AppointmentService : IAppointmentService
 {
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IMapper _mapper;
-    private static readonly HttpClient _httpClient = new HttpClient();
+    private readonly HttpClient _httpClient = new HttpClient();
 
     public AppointmentService(IAppointmentRepository appointmentRepository, IMapper mapper)
     {
@@ -36,16 +36,20 @@ public class AppointmentService : IAppointmentService
     public async Task CreateAsync(AppointmentDto appointmentDto, CancellationToken cancellationToken)
     {
         var appointment = _mapper.Map<AppointmentDto, Appointment>(appointmentDto);
+        
+        //TODO: generate id
+        var response = await _httpClient.GetAsync("api/profiles", cancellationToken);
+        //response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        Console.WriteLine(content);
+        
         await _appointmentRepository.CreateAsync(appointment, cancellationToken);
+        
+        
         //add httpClient
         //provide data validation
         //crate requestModel
         //error mess, isSuccess, data?
-        
-        var response = await _httpClient.GetAsync("api/profiles", cancellationToken);
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync(cancellationToken);
-        Console.WriteLine(content);
     }
 
     public async Task UpdateAsync(Guid id, UpdateAppointmentDto updateAppointmentDto, CancellationToken cancellationToken)
