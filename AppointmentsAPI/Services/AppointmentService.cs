@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using AppointmentsAPI.Interfaces;
+﻿using AppointmentsAPI.Interfaces;
 using AppointmentsAPI.Models;
 using AppointmentsAPI.Models.Dto;
 using AutoMapper;
@@ -10,18 +9,16 @@ public class AppointmentService : IAppointmentService
 {
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IMapper _mapper;
-    private readonly IHttpClientFactory _httpClientFactory;
-    private readonly JsonSerializerOptions _options;
+    private readonly HttpClientService _clientService;
 
     public AppointmentService(
         IAppointmentRepository appointmentRepository, 
         IMapper mapper, 
-        IHttpClientFactory httpClientFactory)
+        HttpClientService clientService)
     {
         _appointmentRepository = appointmentRepository ?? throw new ArgumentNullException(nameof(appointmentRepository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-        _options = new JsonSerializerOptions {PropertyNameCaseInsensitive = true};
+        _clientService = clientService ?? throw new ArgumentNullException(nameof(clientService));
     }
 
     public Task<IEnumerable<Appointment>> SearchAsync(SearchDto searchDto, CancellationToken cancellationToken)
@@ -41,17 +38,20 @@ public class AppointmentService : IAppointmentService
 
     public async Task CreateAsync(AppointmentDto appointmentDto, CancellationToken cancellationToken)
     {
-        var httpClient = _httpClientFactory.CreateClient();
-        httpClient.BaseAddress = new Uri("https://localhost:7116/api/");//remember to put backslash at the end of the Uri
-       
-        using var response = await httpClient.GetAsync($"Doctors/GetById/{appointmentDto.DoctorId}", HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-        response.EnsureSuccessStatusCode();
-        var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
-        var doctor = await JsonSerializer.DeserializeAsync<object>(stream, _options, cancellationToken);
+        //request to the ProfilesAPI
+        var isDoctorExists = _clientService.IsDoctorExistsAsync(appointmentDto.DoctorId, cancellationToken).Result;
+        if (!isDoctorExists)
+        {
+            return;//TODO: ?
+        }
+        var isPatientExists = _clientService.IsPatientExistsAsync(appointmentDto.PatientId, cancellationToken).Result;
+        if (!isPatientExists)
+        {
+            return;//TODO: ?
+        }
         
         var appointment = _mapper.Map<AppointmentDto, Appointment>(appointmentDto);
-        //TODO: generate id
-        
+        appointment.Id = Guid.NewGuid();
         await _appointmentRepository.CreateAsync(appointment, cancellationToken);
         
         //add httpClient
@@ -62,8 +62,20 @@ public class AppointmentService : IAppointmentService
 
     public async Task UpdateAsync(Guid id, UpdateAppointmentDto updateAppointmentDto, CancellationToken cancellationToken)
     {
+        var isDoctorExists = _clientService.IsDoctorExistsAsync(updateAppointmentDto.DoctorId, cancellationToken).Result;
+        if (!isDoctorExists)
+        {
+            return;//TODO: ?
+        }
+        var isPatientExists = _clientService.IsPatientExistsAsync(updateAppointmentDto.PatientId, cancellationToken).Result;
+        if (!isPatientExists)
+        {
+            return;//TODO: ?
+        }
+        
         var appointment = await _appointmentRepository.GetByIdAsync(id, cancellationToken);
         appointment = _mapper.Map<UpdateAppointmentDto, Appointment>(updateAppointmentDto);
+        appointment.Id = Guid.NewGuid();
         await _appointmentRepository.UpdateAsync(appointment, cancellationToken);
     }
 

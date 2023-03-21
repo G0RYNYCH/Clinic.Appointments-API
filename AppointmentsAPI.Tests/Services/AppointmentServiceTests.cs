@@ -19,15 +19,16 @@ public class AppointmentServiceTests
     private readonly AppointmentService _appointmentService;
     private readonly Mock<IAppointmentRepository> _appointmentRepository;
     private readonly Mock<IMapper> _mapper;
-    private readonly Mock<IHttpClientFactory> _httpClientFactory;
+    private readonly Mock<HttpClientService> _httpClientService;
     private readonly CancellationToken _cancellationToken;
 
     public AppointmentServiceTests()
     {
         _appointmentRepository = new Mock<IAppointmentRepository>();
         _mapper = new Mock<IMapper>();
+        _httpClientService = new Mock<HttpClientService>();
         _cancellationToken = new CancellationToken();
-        _appointmentService = new AppointmentService(_appointmentRepository.Object, _mapper.Object, _httpClientFactory.Object);
+        _appointmentService = new AppointmentService(_appointmentRepository.Object, _mapper.Object, _httpClientService.Object);
     }
 
     #region Ctor 
@@ -38,7 +39,7 @@ public class AppointmentServiceTests
         //Arrange
         //Act
         //Assert
-        Assert.Throws<ArgumentNullException>(() => new AppointmentService(null, _mapper.Object, _httpClientFactory.Object));
+        Assert.Throws<ArgumentNullException>(() => new AppointmentService(null, _mapper.Object, _httpClientService.Object));
     }
 
     [Fact]
@@ -47,11 +48,11 @@ public class AppointmentServiceTests
         //Arrange
         //Act
         //Assert
-        Assert.Throws<ArgumentNullException>(() => new AppointmentService(_appointmentRepository.Object, null, _httpClientFactory.Object));
+        Assert.Throws<ArgumentNullException>(() => new AppointmentService(_appointmentRepository.Object, null, _httpClientService.Object));
     }
     
     [Fact]
-    public void AppointmentServiceCtor_NullHttpClient_ThrowsNullArgumentException()
+    public void AppointmentServiceCtor_NullHttpClientService_ThrowsNullArgumentException()
     {
         //Arrange
         //Act
@@ -64,7 +65,7 @@ public class AppointmentServiceTests
     {
         //Arrange
         //Act
-        var result = new AppointmentService(_appointmentRepository.Object, _mapper.Object, _httpClientFactory.Object);
+        var result = new AppointmentService(_appointmentRepository.Object, _mapper.Object, _httpClientService.Object);
 
         //Assert
         result.Should().NotBeNull();
