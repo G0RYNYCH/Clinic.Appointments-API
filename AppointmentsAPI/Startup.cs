@@ -45,6 +45,7 @@ public class Startup
                     Example = new OpenApiString("12:01:01")
                 });
             });
+        services.AddHttpClient();
         services.AddScoped<IAppointmentService, AppointmentService>();
         services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
