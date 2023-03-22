@@ -3,10 +3,12 @@ namespace AppointmentsAPI.Services;
 public class HttpClientService
 {
     public HttpClient HttpClient { get; }
+    private readonly string _baseAddress;
 
-    public HttpClientService(HttpClient httpClient)
+    public HttpClientService(HttpClient httpClient, IConfiguration configuration)
     {
-        httpClient.BaseAddress = new Uri("https://localhost:7116/api/");
+        _baseAddress = configuration.GetValue<string>("HttpClientUrl");
+        httpClient.BaseAddress = new Uri(_baseAddress);
         HttpClient = httpClient;
     }
 
