@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata;
-using AppointmentsAPI.Extensions;
+﻿using AppointmentsAPI.Extensions;
 using AppointmentsAPI.Interfaces;
 using AppointmentsAPI.Repositories;
 using AppointmentsAPI.Services;
@@ -8,8 +7,6 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
-using Polly;
-using Polly.Extensions.Http;
 using Serilog;
 
 namespace AppointmentsAPI;
@@ -48,7 +45,10 @@ public class Startup
                     Example = new OpenApiString("12:01:01")
                 });
             });
-        services.AddHttpClient<HttpClientService>().AddPolicyHandler(GetRetryPolicy());
+
+        services.AddHttpClient<IHttpClientService, HttpClientService>()
+            .AddPolicyHandler(PollyPoliciesExtension.GetRetryPolicy())
+            .AddPolicyHandler(PollyPoliciesExtension.GetCircuitBreakerPolicy());
         services.AddScoped<IAppointmentService, AppointmentService>();
         services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -91,10 +91,4 @@ public class Startup
         using var context = scope.ServiceProvider.GetService<AppointmentDbContext>();
         context.Database.Migrate();
     }
-
-    private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy() =>
-        HttpPolicyExtensions
-            .HandleTransientHttpError()
-            .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-            .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 }

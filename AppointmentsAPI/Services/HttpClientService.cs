@@ -1,6 +1,8 @@
+using AppointmentsAPI.Interfaces;
+
 namespace AppointmentsAPI.Services;
 
-public class HttpClientService
+public class HttpClientService : IHttpClientService
 {
     public HttpClient HttpClient { get; }
     private readonly string _baseAddress;

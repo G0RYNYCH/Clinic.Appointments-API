@@ -9,12 +9,12 @@ public class AppointmentService : IAppointmentService
 {
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IMapper _mapper;
-    private readonly HttpClientService _clientService;
+    private readonly IHttpClientService _clientService;
 
     public AppointmentService(
         IAppointmentRepository appointmentRepository, 
         IMapper mapper, 
-        HttpClientService clientService)
+        IHttpClientService clientService)
     {
         _appointmentRepository = appointmentRepository ?? throw new ArgumentNullException(nameof(appointmentRepository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
